@@ -1,0 +1,10 @@
+{% extends user.is_authenticated|yesno:"core/base_app.html,core/base_publica.html" %}
+{% block titulo %}No encontrada{% endblock %}
+{% block contenido %}
+<div class="text-center py-5">
+  <i class="bx bx-error-circle text-warning display-1" aria-hidden="true"></i>
+  <h1 class="mt-3">No encontramos esa página</h1>
+  <p class="text-body-secondary">El enlace puede estar mal escrito, o la novedad ya no existe o no está a tu alcance.</p>
+  <a class="btn btn-primary" href="{% url 'novedades:lista' %}"><i class="bx bx-arrow-back" aria-hidden="true"></i> Volver al registro</a>
+</div>
+{% endblock %}

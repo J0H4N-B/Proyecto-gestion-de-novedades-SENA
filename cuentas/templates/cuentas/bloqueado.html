@@ -1,0 +1,10 @@
+{% extends "core/base_publica.html" %}
+{% block titulo %}Acceso bloqueado{% endblock %}
+{% block contenido %}
+<div class="text-center">
+  <i class="bx bx-lock text-danger display-1" aria-hidden="true"></i>
+  <h1 class="mt-3">Demasiados intentos fallidos</h1>
+  <p class="text-body-secondary">Por seguridad bloqueamos el acceso con este usuario durante 15 minutos. Pasado ese tiempo puedes intentarlo de nuevo.</p>
+  <p class="text-body-secondary">Si olvidaste tu contraseña, pide a tu coordinación que la restablezca.</p>
+</div>
+{% endblock %}

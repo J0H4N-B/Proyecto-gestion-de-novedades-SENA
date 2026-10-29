@@ -1,0 +1,13 @@
+{% extends "core/base_publica.html" %}
+{% block titulo %}Ingresar{% endblock %}
+{% block contenido %}
+<h1 class="mb-1">Bienvenido</h1>
+<p class="text-body-secondary mb-4">Ingresa con tu usuario del sistema.</p>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% include "core/_campos.html" %}
+  <input type="hidden" name="next" value="{{ next }}">
+  <button class="btn btn-primary w-100 py-2">Ingresar</button>
+</form>
+<p class="text-center mt-4 mb-0">¿Eres aprendiz y aún no tienes cuenta? <a href="{% url 'cuentas:registro' %}">Regístrate</a></p>
+{% endblock %}

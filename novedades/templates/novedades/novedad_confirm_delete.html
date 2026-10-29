@@ -1,0 +1,14 @@
+{% extends "core/base_app.html" %}
+{% block titulo %}Eliminar novedad{% endblock %}
+{% block contenido %}
+<div class="tarjeta p-4 p-md-5 mx-auto text-center" style="max-width: 36rem">
+  <i class="bx bx-trash text-danger display-3" aria-hidden="true"></i>
+  <h1 class="mt-2">¿Eliminar esta novedad?</h1>
+  <p class="text-body-secondary">Se borrará la novedad {{ novedad.get_tipo_display|lower }} de {{ novedad.aprendiz }} junto con su archivo de evidencia. No se puede deshacer.</p>
+  <form method="post" class="d-flex justify-content-center gap-2">
+    {% csrf_token %}
+    <button class="btn btn-danger"><i class="bx bx-trash" aria-hidden="true"></i> Eliminar novedad</button>
+    <a class="btn btn-outline-secondary" href="{{ novedad.get_absolute_url }}">Conservarla</a>
+  </form>
+</div>
+{% endblock %}

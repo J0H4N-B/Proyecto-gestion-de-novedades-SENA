@@ -1,0 +1,49 @@
+{% load core_tags %}
+<header class="topbar d-lg-none">
+  <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar" aria-label="Abrir menú">
+    <i class="bx bx-menu fs-2" aria-hidden="true"></i>
+  </button>
+  <span class="marca"><i class="bx bxs-bell-ring" aria-hidden="true"></i> Novedades</span>
+</header>
+
+<div class="sidebar-col">
+  <aside class="offcanvas-lg offcanvas-start sidebar" tabindex="-1" id="sidebar" aria-label="Menú principal">
+    <div class="offcanvas-header d-lg-none">
+      <span class="marca"><i class="bx bxs-bell-ring" aria-hidden="true"></i> Novedades</span>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Cerrar menú"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column">
+      <a class="marca d-none d-lg-flex" href="{% url 'novedades:lista' %}"><i class="bx bxs-bell-ring" aria-hidden="true"></i> Novedades</a>
+
+      <a class="perfil-lateral" href="{% url 'cuentas:perfil' %}">
+        {% include "core/_avatar.html" with persona=user tamano=48 %}
+        <span>
+          <span class="nombre d-block">{{ user }}</span>
+          <small>{% if user.is_superuser %}Administrador{% else %}{{ user.get_rol_display }}{% endif %}{% if user.sede %} · {{ user.sede }}{% endif %}</small>
+        </span>
+      </a>
+
+      <nav class="menu" aria-label="Principal">
+        <p class="menu-titulo">Novedades</p>
+        <a class="menu-item {% activo 'lista' 'detalle' 'editar' 'eliminar' %}" href="{% url 'novedades:lista' %}"><i class="bx bx-list-ul" aria-hidden="true"></i> Registro</a>
+        {% if user.es_gestor %}
+        <a class="menu-item {% activo 'crear' %}" href="{% url 'novedades:crear' %}"><i class="bx bx-plus-circle" aria-hidden="true"></i> Nueva novedad</a>
+        {% endif %}
+
+        <p class="menu-titulo">Mi cuenta</p>
+        <a class="menu-item {% activo 'perfil' %}" href="{% url 'cuentas:perfil' %}"><i class="bx bx-user-circle" aria-hidden="true"></i> Mi perfil</a>
+        <a class="menu-item {% activo 'clave' 'clave_lista' %}" href="{% url 'cuentas:clave' %}"><i class="bx bx-lock-alt" aria-hidden="true"></i> Cambiar contraseña</a>
+
+        {% if user.is_staff %}
+        <p class="menu-titulo">Sistema</p>
+        <a class="menu-item" href="{% url 'admin:index' %}"><i class="bx bx-cog" aria-hidden="true"></i> Administración</a>
+        {% endif %}
+      </nav>
+
+      <form class="mt-auto" method="post" action="{% url 'cuentas:salir' %}">
+        {% csrf_token %}
+        <button class="menu-item"><i class="bx bx-log-out" aria-hidden="true"></i> Cerrar sesión</button>
+      </form>
+    </div>
+  </aside>
+</div>

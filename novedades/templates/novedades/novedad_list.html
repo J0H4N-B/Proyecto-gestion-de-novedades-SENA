@@ -1,0 +1,59 @@
+{% extends "core/base_app.html" %}
+{% load static %}
+{% block titulo %}Registro{% endblock %}
+{% block estilos %}<link rel="stylesheet" href="{% static 'core/vendor/datatables/dataTables.bootstrap5.min.css' %}">{% endblock %}
+{% block contenido %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+  <div>
+    <h1 class="mb-0">Registro de novedades</h1>
+    <p class="text-body-secondary mb-0">
+      {% if user.es_gestor %}Consulta, busca y gestiona las novedades a tu alcance.{% else %}Estas son las novedades registradas a tu nombre.{% endif %}
+    </p>
+  </div>
+  {% if user.es_gestor %}
+  <a class="btn btn-primary" href="{% url 'novedades:crear' %}"><i class="bx bx-plus-circle" aria-hidden="true"></i> Registrar novedad</a>
+  {% endif %}
+</div>
+
+<div class="row g-3 mb-4">
+  {% for indicador in indicadores %}
+  <div class="col-6 col-xl-3">
+    <button type="button" class="tarjeta indicador{% if forloop.first %} activo{% endif %}" data-tipo="{{ indicador.valor }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+      <span class="icono text-bg-{{ indicador.color }}"><i class="bx {{ indicador.icono }}" aria-hidden="true"></i></span>
+      <span>
+        <span class="cifra d-block">{{ indicador.cantidad }}</span>
+        <small class="text-body-secondary">{{ indicador.nombre }}</small>
+      </span>
+    </button>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="tarjeta p-3 p-md-4">
+  <div class="row g-2 align-items-end mb-3">
+    <div class="col-sm-5 col-md-4 col-lg-3">
+      <label class="form-label small text-body-secondary mb-1" for="filtro-tipo">Tipo de novedad</label>
+      <select id="filtro-tipo" class="form-select">
+        <option value="">Todos</option>
+        {% for indicador in indicadores|slice:"1:" %}<option value="{{ indicador.valor }}">{{ indicador.nombre }}</option>{% endfor %}
+      </select>
+    </div>
+  </div>
+  <noscript><div class="alert alert-warning">Activa JavaScript para ver la tabla de novedades.</div></noscript>
+  <div class="table-responsive">
+    <table id="tabla-novedades" class="table table-hover align-middle w-100" data-url="{% url 'novedades:tabla' %}">
+      <thead>
+        <tr>
+          <th>Fecha</th><th>Tipo</th><th>Aprendiz</th><th>Ficha</th><th>Ambiente</th><th>Registró</th><th>Evidencia</th><th><span class="visually-hidden">Acciones</span></th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'core/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'core/vendor/datatables/dataTables.min.js' %}"></script>
+<script src="{% static 'core/vendor/datatables/dataTables.bootstrap5.min.js' %}"></script>
+<script src="{% static 'novedades/js/lista.js' %}"></script>
+{% endblock %}

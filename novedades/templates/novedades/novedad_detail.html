@@ -1,0 +1,61 @@
+{% extends "core/base_app.html" %}
+{% block titulo %}{{ novedad.aprendiz }}{% endblock %}
+{% block contenido %}
+<nav aria-label="Ruta" class="mb-3">
+  <a class="text-decoration-none" href="{% url 'novedades:lista' %}"><i class="bx bx-chevron-left" aria-hidden="true"></i> Volver al registro</a>
+</nav>
+
+<div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+  <div>
+    {% include "novedades/_tipo.html" %}
+    <h1 class="mt-2 mb-0">{{ novedad.aprendiz }}</h1>
+    <p class="text-body-secondary mb-0">Registrada el {{ novedad.creado_en|date:"j \d\e F \d\e Y, g:i a" }}</p>
+  </div>
+  {% if user.es_gestor %}
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-primary" href="{% url 'novedades:editar' novedad.pk %}"><i class="bx bx-pencil" aria-hidden="true"></i> Editar</a>
+    <a class="btn btn-outline-danger" href="{% url 'novedades:eliminar' novedad.pk %}"><i class="bx bx-trash" aria-hidden="true"></i> Eliminar</a>
+  </div>
+  {% endif %}
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="tarjeta p-4 mb-4">
+      <h2 class="h6 text-uppercase text-body-secondary mb-3">Descripción</h2>
+      <p class="descripcion mb-0">{{ novedad.descripcion }}</p>
+    </div>
+    <div class="tarjeta p-4">
+      <h2 class="h6 text-uppercase text-body-secondary mb-3">Detalles</h2>
+      <dl class="row mb-0">
+        <dt class="col-sm-4 text-body-secondary fw-normal">Documento</dt>
+        <dd class="col-sm-8">{{ novedad.aprendiz.get_tipo_doc_display }} {{ novedad.aprendiz.numero_documento }}</dd>
+        <dt class="col-sm-4 text-body-secondary fw-normal">Ficha</dt>
+        <dd class="col-sm-8">{% if novedad.aprendiz.ficha %}{{ novedad.aprendiz.ficha }} · {{ novedad.aprendiz.ficha.programa }}{% else %}Sin ficha{% endif %}</dd>
+        <dt class="col-sm-4 text-body-secondary fw-normal">Ambiente</dt>
+        <dd class="col-sm-8">{{ novedad.ambiente|default:"No aplica" }}</dd>
+        <dt class="col-sm-4 text-body-secondary fw-normal">Registrada por</dt>
+        <dd class="col-sm-8 mb-0">{{ novedad.creado_por|default:"Usuario eliminado" }}</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    {% with archivo=novedad.tipo_archivo %}
+    <div class="tarjeta p-4">
+      <h2 class="h6 text-uppercase text-body-secondary mb-3">Evidencia adjunta</h2>
+      {% if archivo.es_imagen %}
+      <img class="vista-previa mb-3" src="{% url 'novedades:evidencia' novedad.pk %}?ver=1" alt="Vista previa de la evidencia">
+      {% else %}
+      <div class="text-center text-{{ archivo.color }} py-3"><i class="bx {{ archivo.icono }} archivo-icono" aria-hidden="true"></i></div>
+      {% endif %}
+      <p class="d-flex align-items-center gap-2 mb-3">
+        <span class="badge text-bg-{{ archivo.color }}"><i class="bx {{ archivo.icono }}" aria-hidden="true"></i> {{ archivo.etiqueta }}</span>
+        <small class="text-body-secondary text-break">{{ novedad.nombre_descarga }}</small>
+      </p>
+      <a class="btn btn-primary w-100" href="{% url 'novedades:evidencia' novedad.pk %}"><i class="bx bx-download" aria-hidden="true"></i> Descargar evidencia</a>
+    </div>
+    {% endwith %}
+  </div>
+</div>
+{% endblock %}

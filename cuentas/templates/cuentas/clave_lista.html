@@ -1,0 +1,10 @@
+{% extends "core/base_app.html" %}
+{% block titulo %}Contraseña actualizada{% endblock %}
+{% block contenido %}
+<div class="text-center py-5">
+  <i class="bx bx-check-shield text-success display-1" aria-hidden="true"></i>
+  <h1 class="mt-3">Contraseña actualizada</h1>
+  <p class="text-body-secondary">La próxima vez que ingreses, usa la nueva.</p>
+  <a class="btn btn-primary" href="{% url 'novedades:lista' %}">Volver al registro</a>
+</div>
+{% endblock %}

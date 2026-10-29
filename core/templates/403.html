@@ -1,0 +1,10 @@
+{% extends user.is_authenticated|yesno:"core/base_app.html,core/base_publica.html" %}
+{% block titulo %}Sin permiso{% endblock %}
+{% block contenido %}
+<div class="text-center py-5">
+  <i class="bx bx-lock text-danger display-1" aria-hidden="true"></i>
+  <h1 class="mt-3">No tienes permiso para esto</h1>
+  <p class="text-body-secondary">Tu rol no permite esta acción. Si crees que es un error, habla con la coordinación de tu sede.</p>
+  <a class="btn btn-primary" href="{% url 'novedades:lista' %}"><i class="bx bx-arrow-back" aria-hidden="true"></i> Volver al registro</a>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "core/base_publica.html" %}
+{% block titulo %}Crear cuenta{% endblock %}
+{% block ancho %} ancha{% endblock %}
+{% block contenido %}
+<h1 class="mb-1">Crea tu cuenta</h1>
+<p class="text-body-secondary mb-4">Las cuentas nuevas son de aprendiz: podrás consultar las novedades que te registren y descargar su evidencia.</p>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% include "core/_campos.html" with dos_columnas=True %}
+  <button class="btn btn-primary w-100 py-2">Crear cuenta</button>
+</form>
+<p class="text-center mt-4 mb-0">¿Ya tienes cuenta? <a href="{% url 'cuentas:ingresar' %}">Ingresa</a></p>
+{% endblock %}

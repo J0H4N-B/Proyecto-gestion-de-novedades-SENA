@@ -1,0 +1,19 @@
+{% for campo in form.hidden_fields %}{{ campo }}{% endfor %}
+{% for error in form.non_field_errors %}<div class="alert alert-danger" role="alert">{{ error }}</div>{% endfor %}
+<div{% if dos_columnas %} class="row"{% endif %}>
+{% for campo in form.visible_fields %}
+  <div class="{% if dos_columnas and campo.name not in form.campos_anchos %}col-md-6{% endif %} mb-3">
+    {% if campo.field.widget.input_type == "checkbox" %}
+    <div class="form-check">
+      {{ campo }}
+      <label class="form-check-label" for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+    </div>
+    {% else %}
+    <label class="form-label fw-semibold" for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+    {{ campo }}
+    {% endif %}
+    {% for error in campo.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+    {% if campo.help_text %}<div class="form-text">{{ campo.help_text|safe }}</div>{% endif %}
+  </div>
+{% endfor %}
+</div>

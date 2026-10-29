@@ -1,0 +1,29 @@
+{% extends "core/base_app.html" %}
+{% block titulo %}Mi perfil{% endblock %}
+{% block contenido %}
+<h1 class="mb-4">Mi perfil</h1>
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="tarjeta p-4 text-center">
+      {% include "core/_avatar.html" with persona=user tamano=128 %}
+      <h2 class="h5 mt-3 mb-1">{{ user }}</h2>
+      <span class="badge text-bg-primary">{% if user.is_superuser %}Administrador{% else %}{{ user.get_rol_display }}{% endif %}</span>
+      <dl class="text-start small mt-4 mb-0">
+        <dt class="text-body-secondary">Usuario</dt><dd>{{ user.username }}</dd>
+        <dt class="text-body-secondary">Documento</dt><dd>{{ user.get_tipo_doc_display }} {{ user.numero_documento }}</dd>
+        <dt class="text-body-secondary">Sede</dt><dd>{{ user.sede|default:"Sin sede" }}</dd>
+        {% if user.ficha %}<dt class="text-body-secondary">Ficha</dt><dd class="mb-0">{{ user.ficha }} · {{ user.ficha.programa }}</dd>{% endif %}
+      </dl>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <form class="tarjeta p-4" method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      <h2 class="h5 mb-3">Mis datos</h2>
+      {% include "core/_campos.html" with dos_columnas=True %}
+      <p class="form-text">La foto se recorta a un cuadrado. Acepta PNG, JPG o WebP de hasta 3 MB.</p>
+      <button class="btn btn-primary"><i class="bx bx-check-circle" aria-hidden="true"></i> Guardar cambios</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
